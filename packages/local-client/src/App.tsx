@@ -3,15 +3,35 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useDarkMode } from './hooks/useDarkMode';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
+import * as esbuild from 'esbuild-wasm';
 
 const App = () => {
   const { theme } = useDarkMode();
 
-  const [input, setInput] = React.useState('');
+  const [input, setInput] = React.useState('const App = async () => <div>Hi there</div>');
   const [code, setCode] = React.useState('');
 
-  const onClick = () => {
-    console.log(input);
+
+  const initializeEsBuild = async () => {
+    try {
+      await esbuild.initialize({
+        worker: true,
+        wasmURL: '/esbuild.wasm'
+      });
+    } catch (error) { }
+  };
+
+  React.useEffect(() => {
+    initializeEsBuild();
+  }, []);
+
+  const onClick = async () => {
+    const result = await esbuild.transform(input, {
+      loader: 'jsx',
+      target: 'es2015',
+    });
+
+    setCode(result.code);
   };
 
   return (
