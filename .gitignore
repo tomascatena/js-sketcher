@@ -1,0 +1,8 @@
+# dependencies
+packages/local-client/node_modules
+
+# testing
+packages/local-client/coverage
+
+# production
+packages/local-client/build
