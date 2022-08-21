@@ -4,6 +4,7 @@ import { useDarkMode } from './hooks/useDarkMode';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
 import * as esbuild from 'esbuild-wasm';
+import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 
 const App = () => {
   const { theme } = useDarkMode();
@@ -18,7 +19,9 @@ const App = () => {
         worker: true,
         wasmURL: '/esbuild.wasm'
       });
-    } catch (error) { }
+    } catch (error) {
+      window.location.reload();
+    }
   };
 
   React.useEffect(() => {
@@ -26,12 +29,23 @@ const App = () => {
   }, []);
 
   const onClick = async () => {
-    const result = await esbuild.transform(input, {
-      loader: 'jsx',
-      target: 'es2015',
-    });
+    try {
+      const result = await esbuild.build({
+        entryPoints: ['index.js'],
+        bundle: true,
+        write: false,
+        plugins: [
+          unpkgPathPlugin()
+        ],
+      });
 
-    setCode(result.code);
+      console.log(result.outputFiles[0].contents);
+      console.log(result);
+
+      setCode(result.outputFiles[0].text);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
