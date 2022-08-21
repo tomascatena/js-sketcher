@@ -23,7 +23,6 @@ const App = () => {
 
 root.render(<App />);
 `);
-  const [code, setCode] = React.useState('');
   const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
 
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
@@ -47,9 +46,47 @@ root.render(<App />);
     }
   }, [isEsbuildInitialized]);
 
+  const html = /*html */`
+  <!DOCTYPE html>
+  <html lang="en">
+    <head></head>
+  
+    <body>
+      <div id="root">
+  
+      <script>
+        window.addEventListener('message', (event) => {
+          try {
+            eval(event.data);
+          } catch (error) {
+            const root = document.querySelector('#root');
+  
+            const errorTitle = document.createElement('h4');
+            errorTitle.innerText = 'Runtime Error';
+            errorTitle.style.color = 'red';
+            root.appendChild(errorTitle);
+  
+            const spanElement = document.createElement('span');
+            spanElement.innerText = error;
+            spanElement.style.color = 'red';
+            root.appendChild(spanElement);
+  
+            throw error;
+          }
+        }, false);
+      </script>
+    </body>
+  </html>
+  `;
+
   const onClick = async () => {
     if (!isEsbuildInitialized) {
       return;
+    }
+
+    // Initialize iframe html content
+    if (iframeRef.current) {
+      iframeRef.current.srcdoc = html;
     }
 
     try {
@@ -74,39 +111,6 @@ root.render(<App />);
     }
   };
 
-  const html = /*html */`
-<!DOCTYPE html>
-<html lang="en">
-  <head></head>
-
-  <body>
-    <div id="root">
-
-    <script>
-      window.addEventListener('message', (event) => {
-        try {
-          eval(event.data);
-        } catch (error) {
-          const root = document.querySelector('#root');
-
-          const errorTitle = document.createElement('h4');
-          errorTitle.innerText = 'Runtime Error';
-          errorTitle.style.color = 'red';
-          root.appendChild(errorTitle);
-
-          const divElement = document.createElement('span');
-          divElement.innerText = error;
-          divElement.style.color = 'red';
-          root.appendChild(divElement);
-
-          throw error;
-        }
-      }, false);
-    </script>
-  </body>
-</html>
-`;
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -128,13 +132,11 @@ root.render(<App />);
           </button>
         </div>
 
-        <pre>{code}</pre>
-
         {/* Cannot use localStorage and some other browser APIs when using srcDoc AND sandbox="" */}
         <iframe
           ref={iframeRef}
           srcDoc={html}
-          title="iframe"
+          title="Preview"
           style={{ backgroundColor: '#fff' }}
           sandbox="allow-scripts"
         ></iframe>
