@@ -84,7 +84,23 @@ root.render(<App />);
 
     <script>
       window.addEventListener('message', (event) => {
-        eval(event.data);
+        try {
+          eval(event.data);
+        } catch (error) {
+          const root = document.querySelector('#root');
+
+          const errorTitle = document.createElement('h4');
+          errorTitle.innerText = 'Runtime Error';
+          errorTitle.style.color = 'red';
+          root.appendChild(errorTitle);
+
+          const divElement = document.createElement('span');
+          divElement.innerText = error;
+          divElement.style.color = 'red';
+          root.appendChild(divElement);
+
+          throw error;
+        }
       }, false);
     </script>
   </body>
