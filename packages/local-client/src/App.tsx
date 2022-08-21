@@ -104,7 +104,10 @@ root.render(<App />);
       <CssBaseline />
 
       <Container>
-        <CodeEditor />
+        <CodeEditor
+          initialValue='const a = 1; console.log(a);'
+          onChange={value => setInput(value)}
+        />
 
         <textarea
           onChange={e => setInput(e.target.value)}
