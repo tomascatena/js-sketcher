@@ -24,17 +24,28 @@ export const unpkgFetchPlugin = (inputCode: string) => {
         /**
          * Cached file from indexedDB.
          */
-        const cached = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
+        // const cached = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
 
-        if (cached) {
-          return cached;
-        }
+        // if (cached) {
+        //   return cached;
+        // }
 
         const { data, request } = await axios.get(args.path);
 
+        const fileType = args.path.match(/.css$/) ? 'css' : 'jsx';
+
+        const contents =
+          fileType === 'css'
+            ? `
+          const style = document.createElement('style');
+          style.innerText = 'body { background-color: #0000ff; }';
+          document.head.appendChild(style);
+        `
+            : data;
+
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
-          contents: data,
+          contents: contents,
           resolveDir: new URL('./', request.responseURL).pathname,
         };
 

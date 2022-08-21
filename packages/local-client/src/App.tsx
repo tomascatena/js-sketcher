@@ -11,11 +11,7 @@ const App = () => {
   const { theme } = useDarkMode();
 
   const [input, setInput] = React.useState(`
-import message from 'nested-test-pkg';
-console.log(message);
-
-const a = 1;
-console.log(a);
+import 'bulma/css/bulma.css';
 `);
   const [code, setCode] = React.useState('');
   const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
@@ -57,9 +53,6 @@ console.log(a);
           global: 'window'
         }
       });
-
-      console.log(result.outputFiles[0].contents);
-      console.log(result);
 
       setCode(result.outputFiles[0].text);
     } catch (error) {
