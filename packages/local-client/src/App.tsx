@@ -11,6 +11,7 @@ const App = () => {
 
   const [input, setInput] = React.useState('const App = async () => <div>Hi there</div>');
   const [code, setCode] = React.useState('');
+  const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
 
 
   const initializeEsBuild = async () => {
@@ -19,6 +20,8 @@ const App = () => {
         worker: true,
         wasmURL: '/esbuild.wasm'
       });
+
+      setIsEsbuildInitialized(true);
     } catch (error) {
       window.location.reload();
     }
@@ -29,6 +32,10 @@ const App = () => {
   }, []);
 
   const onClick = async () => {
+    if (!isEsbuildInitialized) {
+      return;
+    }
+
     try {
       const result = await esbuild.build({
         entryPoints: ['index.js'],
