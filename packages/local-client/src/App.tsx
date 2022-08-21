@@ -10,8 +10,7 @@ import { unpkgFetchPlugin } from './plugins/fetch-plugin';
 const App = () => {
   const { theme } = useDarkMode();
 
-  const [input, setInput] = React.useState(`
-import React from 'react';
+  const [input, setInput] = React.useState(`import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 const container = document.getElementById('root');
@@ -23,28 +22,19 @@ const App = () => {
 
 root.render(<App />);
 `);
-  const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
-
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
+  const esbuildRef = React.useRef<any>();
 
-  const initializeEsBuild = async () => {
-    try {
-      await esbuild.initialize({
-        worker: true,
-        wasmURL: 'https://unpkg.com/esbuild-wasm@0.15.5/esbuild.wasm',
-      });
-
-      setIsEsbuildInitialized(true);
-    } catch (error) {
-      console.log(error);
-    }
+  const startEsbuildService = async () => {
+    esbuildRef.current = await esbuild.startService({
+      worker: true,
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
+    });
   };
 
   React.useEffect(() => {
-    if (!isEsbuildInitialized) {
-      initializeEsBuild();
-    }
-  }, [isEsbuildInitialized]);
+    startEsbuildService();
+  }, []);
 
   const html = /*html */`
   <!DOCTYPE html>
@@ -80,7 +70,7 @@ root.render(<App />);
   `;
 
   const onClick = async () => {
-    if (!isEsbuildInitialized) {
+    if (!esbuildRef.current) {
       return;
     }
 
@@ -88,27 +78,24 @@ root.render(<App />);
     if (iframeRef.current) {
       iframeRef.current.srcdoc = html;
     }
-
-    try {
-      const result = await esbuild.build({
-        entryPoints: ['index.js'],
-        bundle: true,
-        write: false,
-        plugins: [
-          unpkgPathPlugin(),
-          unpkgFetchPlugin(input)
-        ],
-        define: {
-          global: 'window'
-        }
-      });
-
-      if (iframeRef.current?.contentWindow) {
-        iframeRef.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
+    const result = await esbuildRef.current.build({
+      entryPoints: ['index.js'],
+      bundle: true,
+      write: false,
+      plugins: [
+        unpkgPathPlugin(),
+        unpkgFetchPlugin(input)
+      ],
+      define: {
+        "process.env.NODE_ENV": '"production"',
+        global: "window"
       }
-    } catch (error) {
-      console.log(error);
+    });
+
+    if (iframeRef.current?.contentWindow) {
+      iframeRef.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
     }
+
   };
 
   return (
@@ -124,10 +111,7 @@ root.render(<App />);
         ></textarea>
 
         <div>
-          <button
-            disabled={!isEsbuildInitialized}
-            onClick={onClick}
-          >
+          <button onClick={onClick}>
             Submit
           </button>
         </div>
