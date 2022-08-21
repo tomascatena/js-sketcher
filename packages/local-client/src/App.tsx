@@ -44,6 +44,10 @@ const App = () => {
         plugins: [
           unpkgPathPlugin()
         ],
+        define: {
+          'process.env.NODE_ENV': "production",
+          global: 'window'
+        }
       });
 
       console.log(result.outputFiles[0].contents);
