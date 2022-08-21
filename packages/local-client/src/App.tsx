@@ -10,8 +10,7 @@ import { unpkgFetchPlugin } from './plugins/fetch-plugin';
 const App = () => {
   const { theme } = useDarkMode();
 
-  const [input, setInput] = React.useState(`
-import 'bulma/css/bulma.css';
+  const [input, setInput] = React.useState(`import 'bulma/css/bulma.css';
 import React from 'react';
 
 const App = () => {
@@ -24,7 +23,6 @@ const App = () => {
 `);
   const [code, setCode] = React.useState('');
   const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
-
 
   const initializeEsBuild = async () => {
     try {
