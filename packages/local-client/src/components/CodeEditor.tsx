@@ -2,6 +2,9 @@ import React from 'react';
 import Editor, { EditorDidMount } from "@monaco-editor/react";
 import prettier from 'prettier';
 import parser from 'prettier/parser-babel';
+import { StyledBox, StyledButton } from './CodeEditor.styled';
+import codeShift from 'jscodeshift';
+import Highlighter from 'monaco-jsx-highlighter';
 
 type Props = {
   language?: string;
@@ -25,6 +28,20 @@ const CodeEditor = ({
     });
 
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
+
+    const highlighter = new Highlighter(
+      // @ts-ignore
+      window.monaco,
+      codeShift,
+      monacoEditor
+    );
+
+    highlighter.highLightOnDidChangeModelContent(
+      () => { },
+      () => { },
+      undefined,
+      () => { }
+    );
   };
 
   const onFormatClick = () => {
@@ -42,8 +59,14 @@ const CodeEditor = ({
   };
 
   return (
-    <div>
-      <button onClick={onFormatClick}>Format</button>
+    <StyledBox>
+      <StyledButton
+        variant="outlined"
+        onClick={onFormatClick}
+        className="format-button"
+      >
+        Format
+      </StyledButton>
 
       <Editor
         value={initialValue}
@@ -62,7 +85,7 @@ const CodeEditor = ({
           automaticLayout: true
         }}
       />
-    </div>
+    </StyledBox>
   );
 };
 

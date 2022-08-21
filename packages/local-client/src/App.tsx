@@ -5,24 +5,31 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
 import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
-import { unpkgFetchPlugin } from './plugins/fetch-plugin';
+import { unpkgFetchPlugin } from './plugins/unpkg-fetch-plugin';
 import CodeEditor from './components/CodeEditor';
 
-const App = () => {
-  const { theme } = useDarkMode();
 
-  const [input, setInput] = React.useState(`import React from 'react';
+const initialCode = `import React from 'react';
 import { createRoot } from 'react-dom/client';
-
+  
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 const App = () => {
-  return <div>Hello World</div>;
+  return (
+    <>        
+      <h1>Hello World</h1>
+    </>
+  );
 }
 
 root.render(<App />);
-`);
+`;
+
+const App = () => {
+  const { theme } = useDarkMode();
+
+  const [input, setInput] = React.useState(initialCode);
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
   const esbuildRef = React.useRef<any>();
 
@@ -99,13 +106,14 @@ root.render(<App />);
 
   };
 
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
       <Container>
         <CodeEditor
-          initialValue='const a = 1; console.log(a);'
+          initialValue={initialCode}
           onChange={value => setInput(value)}
         />
 
