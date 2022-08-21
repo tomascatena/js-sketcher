@@ -7,26 +7,26 @@ import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { unpkgFetchPlugin } from './plugins/fetch-plugin';
 
-const html = /*html */`
-<h1>Local HTML Doc</h1>
-`;
-
 const App = () => {
   const { theme } = useDarkMode();
 
   const [input, setInput] = React.useState(`
 import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+const container = document.getElementById('root');
+const root = createRoot(container);
 
 const App = () => {
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
-  );
+  return <div>Hello World</div>;
 }
+
+root.render(<App />);
 `);
   const [code, setCode] = React.useState('');
   const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
+
+  const iframeRef = React.useRef<HTMLIFrameElement>(null);
 
   const initializeEsBuild = async () => {
     try {
@@ -62,22 +62,34 @@ const App = () => {
           unpkgFetchPlugin(input)
         ],
         define: {
-          'process.env.NODE_ENV': "production",
           global: 'window'
         }
       });
 
-      setCode(result.outputFiles[0].text);
-
-      try {
-        eval(result.outputFiles[0].text);
-      } catch (error) {
-        console.log(error);
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const html = /*html */`
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+
+  <body>
+    <div id="root">
+
+    <script>
+      window.addEventListener('message', (event) => {
+        eval(event.data);
+      }, false);
+    </script>
+  </body>
+</html>
+`;
 
   return (
     <ThemeProvider theme={theme}>
@@ -104,10 +116,11 @@ const App = () => {
 
         {/* Cannot use localStorage and some other browser APIs when using srcDoc AND sandbox="" */}
         <iframe
+          ref={iframeRef}
           srcDoc={html}
           title="iframe"
           style={{ backgroundColor: '#fff' }}
-          sandbox=""
+          sandbox="allow-scripts"
         ></iframe>
       </Container>
     </ThemeProvider>
