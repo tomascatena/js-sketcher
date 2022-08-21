@@ -6,8 +6,7 @@ import { Container } from '@mui/material';
 import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { unpkgFetchPlugin } from './plugins/unpkg-fetch-plugin';
-import CodeEditor from './components/CodeEditor';
-
+import CodeEditor from './components/CodeEditor/CodeEditor';
 
 const initialCode = `import React from 'react';
 import { createRoot } from 'react-dom/client';

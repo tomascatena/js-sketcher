@@ -5,6 +5,7 @@ import parser from 'prettier/parser-babel';
 import { StyledBox, StyledButton } from './CodeEditor.styled';
 import codeShift from 'jscodeshift';
 import Highlighter from 'monaco-jsx-highlighter';
+import './syntax.css';
 
 type Props = {
   language?: string;
@@ -16,15 +17,16 @@ type Props = {
 const CodeEditor = ({
   language = 'javascript',
   theme = 'vs-dark',
-  initialValue = 'const a = 1;'
+  initialValue = 'const a = 1;',
+  onChange
 }: Props) => {
   const editorRef = React.useRef<any>();
 
-  const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
+  const onEditorDidMount: EditorDidMount = (getCurrentValue, monacoEditor) => {
     editorRef.current = monacoEditor;
 
     monacoEditor.onDidChangeModelContent(() => {
-      console.log(getValue());
+      onChange(getCurrentValue());
     });
 
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
@@ -59,7 +61,7 @@ const CodeEditor = ({
   };
 
   return (
-    <StyledBox>
+    <StyledBox className='editor-wrapper'>
       <StyledButton
         variant="outlined"
         onClick={onFormatClick}
