@@ -1,5 +1,5 @@
 import React from 'react';
-import Editor from "@monaco-editor/react";
+import Editor, { EditorDidMount } from "@monaco-editor/react";
 
 type Props = {
   language?: string;
@@ -13,12 +13,14 @@ const CodeEditor = ({
   theme = 'vs-dark',
   initialValue = 'const a = 1;'
 }: Props) => {
-  const onEditorDidMount = (getValue: () => void, monacoEditor: any) => {
+  const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
     console.log(getValue());
 
     monacoEditor.onDidChangeModelContent(() => {
       console.log(getValue());
     });
+
+    monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
   };
 
   return (
