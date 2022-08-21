@@ -34,11 +34,13 @@ export const unpkgFetchPlugin = (inputCode: string) => {
 
         const fileType = args.path.match(/.css$/) ? 'css' : 'jsx';
 
+        const escaped = data.replace(/\n/g, '').replace(/"/g, '\\"').replace(/'/g, "\\'");
+
         const contents =
           fileType === 'css'
             ? `
           const style = document.createElement('style');
-          style.innerText = 'body { background-color: #0000ff; }';
+          style.innerText = '${escaped}';
           document.head.appendChild(style);
         `
             : data;
