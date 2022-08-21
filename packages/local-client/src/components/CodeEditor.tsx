@@ -1,5 +1,7 @@
 import React from 'react';
 import Editor, { EditorDidMount } from "@monaco-editor/react";
+import prettier from 'prettier';
+import parser from 'prettier/parser-babel';
 
 type Props = {
   language?: string;
@@ -13,8 +15,10 @@ const CodeEditor = ({
   theme = 'vs-dark',
   initialValue = 'const a = 1;'
 }: Props) => {
+  const editorRef = React.useRef<any>();
+
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
-    console.log(getValue());
+    editorRef.current = monacoEditor;
 
     monacoEditor.onDidChangeModelContent(() => {
       console.log(getValue());
@@ -23,24 +27,42 @@ const CodeEditor = ({
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
   };
 
+  const onFormatClick = () => {
+    const unformatted = editorRef.current.getModel().getValue();
+
+    const formatted = prettier.format(unformatted, {
+      parser: 'babel',
+      plugins: [parser],
+      useTabs: false,
+      semi: true,
+      singleQuote: true
+    });
+
+    editorRef.current.setValue(formatted);
+  };
+
   return (
-    <Editor
-      value={initialValue}
-      editorDidMount={onEditorDidMount}
-      height={500}
-      language={language}
-      theme={theme}
-      options={{
-        wordWrap: 'on',
-        minimap: { enabled: false },
-        showUnused: false,
-        folding: false,
-        lineNumbersMinChars: 3,
-        fontSize: 16,
-        scrollBeyondLastLine: false,
-        automaticLayout: true
-      }}
-    />
+    <div>
+      <button onClick={onFormatClick}>Format</button>
+
+      <Editor
+        value={initialValue}
+        editorDidMount={onEditorDidMount}
+        height={500}
+        language={language}
+        theme={theme}
+        options={{
+          wordWrap: 'on',
+          minimap: { enabled: false },
+          showUnused: false,
+          folding: false,
+          lineNumbersMinChars: 3,
+          fontSize: 16,
+          scrollBeyondLastLine: false,
+          automaticLayout: true
+        }}
+      />
+    </div>
   );
 };
 
