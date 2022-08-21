@@ -9,7 +9,11 @@ import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 const App = () => {
   const { theme } = useDarkMode();
 
-  const [input, setInput] = React.useState('const App = async () => <div>Hi there</div>');
+  const [input, setInput] = React.useState(`
+const a = 1;
+
+console.log(a);
+`);
   const [code, setCode] = React.useState('');
   const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
 
@@ -42,7 +46,7 @@ const App = () => {
         bundle: true,
         write: false,
         plugins: [
-          unpkgPathPlugin()
+          unpkgPathPlugin(input)
         ],
         define: {
           'process.env.NODE_ENV': "production",
@@ -67,7 +71,7 @@ const App = () => {
         <textarea
           onChange={e => setInput(e.target.value)}
           value={input}
-          cols={30} rows={10}
+          cols={90} rows={10}
         ></textarea>
 
         <div>

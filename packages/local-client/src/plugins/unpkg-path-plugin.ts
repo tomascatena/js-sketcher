@@ -1,7 +1,12 @@
 import * as esbuild from 'esbuild-wasm';
 import axios from 'axios';
+import localForage from 'localforage';
 
-export const unpkgPathPlugin = () => {
+const fileCache = localForage.createInstance({
+  name: 'js-sketcher-file-cache',
+});
+
+export const unpkgPathPlugin = (inputCode: string) => {
   return {
     name: 'unpkg-path-plugin',
     setup(build: esbuild.PluginBuild) {
@@ -33,22 +38,30 @@ export const unpkgPathPlugin = () => {
         if (args.path === 'index.js') {
           return {
             loader: 'jsx',
-            contents: `
-              const React = require('react');
-              const ReactDOM = require('react-dom');
-
-              console.log(React, ReactDOM);
-            `,
+            contents: inputCode,
           };
+        }
+
+        /**
+         * Cached file from indexedDB.
+         */
+        const cached = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
+
+        if (cached) {
+          return cached;
         }
 
         const { data, request } = await axios.get(args.path);
 
-        return {
+        const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents: data,
           resolveDir: new URL('./', request.responseURL).pathname,
         };
+
+        await fileCache.setItem(args.path, result);
+
+        return result;
       });
     },
   };
