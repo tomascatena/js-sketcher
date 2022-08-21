@@ -6,6 +6,7 @@ import { Container } from '@mui/material';
 import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { unpkgFetchPlugin } from './plugins/fetch-plugin';
+import CodeEditor from './components/CodeEditor';
 
 const App = () => {
   const { theme } = useDarkMode();
@@ -103,6 +104,8 @@ root.render(<App />);
       <CssBaseline />
 
       <Container>
+        <CodeEditor />
+
         <textarea
           onChange={e => setInput(e.target.value)}
           value={input}
