@@ -7,10 +7,14 @@ import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { unpkgFetchPlugin } from './plugins/fetch-plugin';
 
+const html = /*html */`
+<h1>Local HTML Doc</h1>
+`;
+
 const App = () => {
   const { theme } = useDarkMode();
 
-  const [input, setInput] = React.useState(`import 'bulma/css/bulma.css';
+  const [input, setInput] = React.useState(`
 import React from 'react';
 
 const App = () => {
@@ -38,8 +42,10 @@ const App = () => {
   };
 
   React.useEffect(() => {
-    initializeEsBuild();
-  }, []);
+    if (!isEsbuildInitialized) {
+      initializeEsBuild();
+    }
+  }, [isEsbuildInitialized]);
 
   const onClick = async () => {
     if (!isEsbuildInitialized) {
@@ -62,6 +68,12 @@ const App = () => {
       });
 
       setCode(result.outputFiles[0].text);
+
+      try {
+        eval(result.outputFiles[0].text);
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -75,17 +87,32 @@ const App = () => {
         <textarea
           onChange={e => setInput(e.target.value)}
           value={input}
-          cols={90} rows={10}
+          cols={90}
+          rows={10}
         ></textarea>
 
         <div>
-          <button onClick={onClick}>Submit</button>
+          <button
+            disabled={!isEsbuildInitialized}
+            onClick={onClick}
+          >
+            Submit
+          </button>
         </div>
 
         <pre>{code}</pre>
+
+        {/* Cannot use localStorage and some other browser APIs when using srcDoc AND sandbox="" */}
+        <iframe
+          srcDoc={html}
+          title="iframe"
+          style={{ backgroundColor: '#fff' }}
+          sandbox=""
+        ></iframe>
       </Container>
     </ThemeProvider>
   );
 };
+
 
 export default App;
