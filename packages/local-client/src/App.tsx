@@ -12,6 +12,15 @@ const App = () => {
 
   const [input, setInput] = React.useState(`
 import 'bulma/css/bulma.css';
+import React from 'react';
+
+const App = () => {
+  return (
+    <div>
+      <h1>Hello World</h1>
+    </div>
+  );
+}
 `);
   const [code, setCode] = React.useState('');
   const [isEsbuildInitialized, setIsEsbuildInitialized] = React.useState(false);
