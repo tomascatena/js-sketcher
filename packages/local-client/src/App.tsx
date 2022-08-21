@@ -5,13 +5,16 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
 import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
+import { unpkgFetchPlugin } from './plugins/fetch-plugin';
 
 const App = () => {
   const { theme } = useDarkMode();
 
   const [input, setInput] = React.useState(`
-const a = 1;
+import message from 'nested-test-pkg';
+console.log(message);
 
+const a = 1;
 console.log(a);
 `);
   const [code, setCode] = React.useState('');
@@ -46,7 +49,8 @@ console.log(a);
         bundle: true,
         write: false,
         plugins: [
-          unpkgPathPlugin(input)
+          unpkgPathPlugin(),
+          unpkgFetchPlugin(input)
         ],
         define: {
           'process.env.NODE_ENV': "production",
