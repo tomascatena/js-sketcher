@@ -3,6 +3,7 @@ import React from 'react';
 import bundler from '../../bundler';
 import CodeEditor from '../CodeEditor/CodeEditor';
 import Preview from '../Preview/Preview';
+import { CodeCellContainer } from './CodeCell.styled';
 
 const initialCode = `import React from 'react';
 import ReactDOM from 'react-dom';
@@ -27,14 +28,14 @@ const CodeCell = (props: Props) => {
 
   return (
     <>
-      <div>
+      <CodeCellContainer>
         <CodeEditor
           initialValue={initialCode}
           onChange={value => setInput(value)}
         />
 
         <Preview code={code} />
-      </div>
+      </CodeCellContainer>
 
       <div>
         <Button variant="contained" onClick={onClick}>
