@@ -15,7 +15,7 @@ export const unpkgFetchPlugin = (inputCode: string) => {
     setup(build: esbuild.PluginBuild) {
       build.onLoad({ filter: /^index\.js/ }, () => {
         return {
-          loader: 'jsx',
+          loader: 'tsx',
           contents: inputCode,
         };
       });
@@ -48,7 +48,7 @@ export const unpkgFetchPlugin = (inputCode: string) => {
         `;
 
         const result: esbuild.OnLoadResult = {
-          loader: 'jsx',
+          loader: 'tsx',
           contents: contents,
           resolveDir: new URL('./', request.responseURL).pathname,
         };
@@ -66,7 +66,7 @@ export const unpkgFetchPlugin = (inputCode: string) => {
         const { data, request } = await axios.get(args.path);
 
         const result: esbuild.OnLoadResult = {
-          loader: 'jsx',
+          loader: 'tsx',
           contents: data,
           resolveDir: new URL('./', request.responseURL).pathname,
         };

@@ -7,29 +7,24 @@ import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { unpkgFetchPlugin } from './plugins/unpkg-fetch-plugin';
 import CodeEditor from './components/CodeEditor/CodeEditor';
+import Preview from './components/Preview/Preview';
 
 const initialCode = `import React from 'react';
-import { createRoot } from 'react-dom/client';
-  
-const container = document.getElementById('root');
-const root = createRoot(container);
+import ReactDOM from 'react-dom';
 
-const App = () => {
-  return (
-    <>        
-      <h1>Hello World</h1>
-    </>
-  );
-}
+console.log('Hello World');
+console.log(document.getElementById('root'))
 
-root.render(<App />);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<h1>Hello, world!</h1>);
 `;
 
 const App = () => {
   const { theme } = useDarkMode();
 
+  const [code, setCode] = React.useState(initialCode);
   const [input, setInput] = React.useState(initialCode);
-  const iframeRef = React.useRef<HTMLIFrameElement>(null);
+
   const esbuildRef = React.useRef<any>();
 
   const startEsbuildService = async () => {
@@ -43,48 +38,11 @@ const App = () => {
     startEsbuildService();
   }, []);
 
-  const html = /*html */`
-  <!DOCTYPE html>
-  <html lang="en">
-    <head></head>
-  
-    <body>
-      <div id="root">
-  
-      <script>
-        window.addEventListener('message', (event) => {
-          try {
-            eval(event.data);
-          } catch (error) {
-            const root = document.querySelector('#root');
-  
-            const errorTitle = document.createElement('h4');
-            errorTitle.innerText = 'Runtime Error';
-            errorTitle.style.color = 'red';
-            root.appendChild(errorTitle);
-  
-            const spanElement = document.createElement('span');
-            spanElement.innerText = error;
-            spanElement.style.color = 'red';
-            root.appendChild(spanElement);
-  
-            throw error;
-          }
-        }, false);
-      </script>
-    </body>
-  </html>
-  `;
-
   const onClick = async () => {
     if (!esbuildRef.current) {
       return;
     }
 
-    // Initialize iframe html content
-    if (iframeRef.current) {
-      iframeRef.current.srcdoc = html;
-    }
     const result = await esbuildRef.current.build({
       entryPoints: ['index.js'],
       bundle: true,
@@ -99,12 +57,8 @@ const App = () => {
       }
     });
 
-    if (iframeRef.current?.contentWindow) {
-      iframeRef.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
-    }
-
+    setCode(result.outputFiles[0].text);
   };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -116,27 +70,13 @@ const App = () => {
           onChange={value => setInput(value)}
         />
 
-        <textarea
-          onChange={e => setInput(e.target.value)}
-          value={input}
-          cols={90}
-          rows={10}
-        ></textarea>
-
         <div>
           <button onClick={onClick}>
             Submit
           </button>
         </div>
 
-        {/* Cannot use localStorage and some other browser APIs when using srcDoc AND sandbox="" */}
-        <iframe
-          ref={iframeRef}
-          srcDoc={html}
-          title="Preview"
-          style={{ backgroundColor: '#fff' }}
-          sandbox="allow-scripts"
-        ></iframe>
+        <Preview code={code} />
       </Container>
     </ThemeProvider>
   );
