@@ -18,3 +18,10 @@
   bottom: 0;
   opacity: 0;
 }
+
+.build-error {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  color: #f00;
+}

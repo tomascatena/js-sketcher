@@ -8,22 +8,22 @@ import { CodeCellContainer } from './CodeCell.styled';
 const initialCode = `import React from 'react';
 import ReactDOM from 'react-dom';
 
-console.log('Hello World from the iframe');
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<h1>Hello, world!</h1>);
 `;
 
 const CodeCell = () => {
-  const [code, setCode] = React.useState(initialCode);
+  const [code, setCode] = React.useState<string | null>(initialCode);
   const [input, setInput] = React.useState(initialCode);
+  const [error, setError] = React.useState<string | null>(null);
 
 
   React.useEffect(() => {
     const timer = setTimeout(async () => {
-      const result = await bundler(input);
+      const { code, error } = await bundler(input);
 
-      setCode(result);
+      setCode(code);
+      setError(error);
     }, 750);
 
     return () => {
@@ -41,7 +41,10 @@ const CodeCell = () => {
           />
         </Resizable>
 
-        <Preview code={code} />
+        <Preview
+          code={code}
+          error={error}
+        />
       </CodeCellContainer>
     </Resizable>
   );
