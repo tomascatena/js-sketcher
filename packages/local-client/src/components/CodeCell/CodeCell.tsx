@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import React from 'react';
 import bundler from '../../bundler';
 import CodeEditor from '../CodeEditor/CodeEditor';
@@ -15,17 +14,22 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<h1>Hello, world!</h1>);
 `;
 
-type Props = {};
-
-const CodeCell = (props: Props) => {
+const CodeCell = () => {
   const [code, setCode] = React.useState(initialCode);
   const [input, setInput] = React.useState(initialCode);
 
-  const onClick = async () => {
-    const result = await bundler(code);
 
-    setCode(result);
-  };
+  React.useEffect(() => {
+    const timer = setTimeout(async () => {
+      const result = await bundler(input);
+
+      setCode(result);
+    }, 750);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [input]);
 
   return (
     <Resizable direction='vertical'>

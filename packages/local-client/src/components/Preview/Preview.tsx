@@ -13,8 +13,6 @@ const html = /*html */`
   <body>
     <div id="root">
 
-    <h1>Initial HTML</h1>
-
     <script>
       window.addEventListener('message', (event) => {
         try {
