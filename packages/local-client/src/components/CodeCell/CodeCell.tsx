@@ -30,10 +30,12 @@ const CodeCell = (props: Props) => {
   return (
     <Resizable direction='vertical'>
       <CodeCellContainer>
-        <CodeEditor
-          initialValue={initialCode}
-          onChange={value => setInput(value)}
-        />
+        <Resizable direction='horizontal'>
+          <CodeEditor
+            initialValue={initialCode}
+            onChange={value => setInput(value)}
+          />
+        </Resizable>
 
         <Preview code={code} />
       </CodeCellContainer>
