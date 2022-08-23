@@ -1,4 +1,5 @@
 import React from 'react';
+import './preview.css';
 
 const html = /*html */`
 <!DOCTYPE html>
@@ -55,13 +56,14 @@ const Preview = ({ code }: Props) => {
   }, [code]);
 
   return (
-    <iframe
-      ref={iframeRef}
-      srcDoc={html}
-      title="Preview"
-      style={{ backgroundColor: '#fff' }}
-      sandbox="allow-scripts"
-    />
+    <div className='iframe-wrapper'>
+      <iframe
+        ref={iframeRef}
+        srcDoc={html}
+        title="Preview"
+        sandbox="allow-scripts"
+      />
+    </div>
   );
 };
 
