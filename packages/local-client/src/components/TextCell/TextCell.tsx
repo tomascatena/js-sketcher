@@ -7,9 +7,13 @@ const TextCell = (props: Props) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [value, setValue] = React.useState("# Tomas Catena");
 
+  const mdEditorRef = React.useRef<HTMLDivElement>(null);
+
   React.useEffect(() => {
     const listener = (event: MouseEvent) => {
-      setIsEditing(false);
+      if (!mdEditorRef?.current?.contains(event.target as Node)) {
+        setIsEditing(false);
+      }
     };
 
     window.addEventListener('click', listener, { capture: true });
@@ -21,14 +25,16 @@ const TextCell = (props: Props) => {
 
   if (isEditing) {
     return (
-      <MDEditor
-        value={value}
-        onChange={e => setValue(e as string)}
-      />
+      <div ref={mdEditorRef}>
+        <MDEditor
+          value={value}
+          onChange={e => setValue(e as string)}
+        />
+      </div>
     );
   } else {
     return (
-      <div onClick={() => setIsEditing(true)}>
+      <div onClick={() => setIsEditing(true)} data-color-mode="dark">
         <MDEditor.Markdown source={value} />
       </div>
     );
