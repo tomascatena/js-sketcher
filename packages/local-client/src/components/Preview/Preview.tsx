@@ -4,7 +4,11 @@ import './preview.css';
 const html = /*html */`
 <!DOCTYPE html>
 <html lang="en">
-  <head></head>
+  <head>
+    <style>
+      html { background-color: #fff; }
+    </style>
+  </head>
 
   <body>
     <div id="root">

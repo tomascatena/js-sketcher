@@ -24,3 +24,8 @@
   display: flex;
   flex-direction: row;
 }
+
+.resize-horizontal {
+  flex-direction: row;
+  display: flex;
+}
