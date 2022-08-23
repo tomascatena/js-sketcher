@@ -85,7 +85,7 @@ const Preview = ({ code, error }: Props) => {
 
       {error && (
         <div className="build-error">
-          <h4>Runtime Error</h4>
+          <h4>Bundling Error</h4>
           <span>{error}</span>
         </div>
       )}

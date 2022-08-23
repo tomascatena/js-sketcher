@@ -1,7 +1,7 @@
 import React from 'react';
 import bundler from '../../bundler';
-import CodeEditor from '../CodeEditor/CodeEditor';
-import Preview from '../Preview/Preview';
+import CodeEditor from './CodeEditor/CodeEditor';
+import Preview from './Preview/Preview';
 import Resizable from '../Resizable/Resizable';
 import { CodeCellContainer } from './CodeCell.styled';
 
