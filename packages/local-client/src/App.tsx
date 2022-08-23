@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useDarkMode } from './hooks/useDarkMode';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
-import CodeCell from './components/CodeCell/CodeCell';
+import TextCell from './components/TextCell/TextCell';
 
 const App = () => {
   const { theme } = useDarkMode();
@@ -13,7 +13,7 @@ const App = () => {
       <CssBaseline />
 
       <Container>
-        <CodeCell />
+        <TextCell />
       </Container>
     </ThemeProvider>
   );
