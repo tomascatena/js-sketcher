@@ -73,8 +73,8 @@ const CodeEditor = ({
       <Editor
         value={initialValue}
         editorDidMount={onEditorDidMount}
-        height={500}
-        width={750}
+        height='100%'
+        width='100%'
         language={language}
         theme={theme}
         options={{

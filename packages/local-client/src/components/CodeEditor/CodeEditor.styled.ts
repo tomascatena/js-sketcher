@@ -3,6 +3,7 @@ import { Button, Box } from '@mui/material';
 
 export const StyledBox = styled(Box)(() => ({
   position: 'relative',
+  width: '100%',
 
   '&:hover': {
     '& .format-button': {

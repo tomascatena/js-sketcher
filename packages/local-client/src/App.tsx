@@ -14,8 +14,6 @@ const App = () => {
 
       <Container>
         <CodeCell />
-
-        <CodeCell />
       </Container>
     </ThemeProvider>
   );

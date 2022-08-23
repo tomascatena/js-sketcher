@@ -3,6 +3,7 @@ import React from 'react';
 import bundler from '../../bundler';
 import CodeEditor from '../CodeEditor/CodeEditor';
 import Preview from '../Preview/Preview';
+import Resizable from '../Resizable/Resizable';
 import { CodeCellContainer } from './CodeCell.styled';
 
 const initialCode = `import React from 'react';
@@ -27,7 +28,7 @@ const CodeCell = (props: Props) => {
   };
 
   return (
-    <>
+    <Resizable direction='vertical'>
       <CodeCellContainer>
         <CodeEditor
           initialValue={initialCode}
@@ -36,13 +37,7 @@ const CodeCell = (props: Props) => {
 
         <Preview code={code} />
       </CodeCellContainer>
-
-      <div>
-        <Button variant="contained" onClick={onClick}>
-          Run Code
-        </Button>
-      </div>
-    </>
+    </Resizable>
   );
 };
 
