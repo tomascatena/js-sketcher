@@ -14,6 +14,8 @@ const Resizable = ({
   const [innerHeight, setInnerHeight] = React.useState(window.innerHeight);
   const [innerWidth, setInnerWidth] = React.useState(window.innerWidth);
 
+  const [width, setWidth] = React.useState(innerWidth * 0.75);
+
   let resizableProps: ResizableBoxProps;
 
   React.useEffect(() => {
@@ -27,6 +29,10 @@ const Resizable = ({
       timer = setTimeout(() => {
         setInnerHeight(window.innerHeight);
         setInnerWidth(window.innerWidth);
+
+        if (window.innerWidth * 0.75 < width) {
+          setWidth(window.innerWidth * 0.75);
+        }
       }, 100);
     };
 
@@ -41,10 +47,13 @@ const Resizable = ({
     resizableProps = {
       className: 'resize-horizontal',
       height: Infinity,
-      width: innerWidth * 0.75,
+      width,
       resizeHandles: ['e'],
       maxConstraints: [innerWidth * 0.75, Infinity],
-      minConstraints: [innerWidth * 0.2, Infinity]
+      minConstraints: [innerWidth * 0.2, Infinity],
+      onResizeStop(e, data) {
+        setWidth(data.size.width);
+      },
     };
   } else {
     resizableProps = {
