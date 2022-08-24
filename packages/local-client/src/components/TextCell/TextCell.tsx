@@ -5,7 +5,7 @@ type Props = {};
 
 const TextCell = (props: Props) => {
   const [isEditing, setIsEditing] = React.useState(false);
-  const [value, setValue] = React.useState("# Tomas Catena");
+  const [value, setValue] = React.useState("# Pelusa");
 
   const mdEditorRef = React.useRef<HTMLDivElement>(null);
 
@@ -28,13 +28,16 @@ const TextCell = (props: Props) => {
       <div ref={mdEditorRef}>
         <MDEditor
           value={value}
-          onChange={e => setValue(e as string)}
+          onChange={e => setValue(e || '')}
         />
       </div>
     );
   } else {
     return (
-      <div onClick={() => setIsEditing(true)} data-color-mode="dark">
+      <div
+        onClick={() => setIsEditing(true)}
+        data-color-mode="dark"
+      >
         <MDEditor.Markdown source={value} />
       </div>
     );
