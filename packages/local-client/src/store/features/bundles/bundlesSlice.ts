@@ -18,7 +18,15 @@ const initialState: BundlesState = {
 export const bundlesSlice = createSlice({
   name: 'bundles',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentCellId: (state, action: PayloadAction<{ id: string }>) => {},
+    startBundling: (state, action: PayloadAction<{ id: string }>) => {},
+    completeBundling: (
+      state,
+      action: PayloadAction<{ id: string; code: string; error: string | null }>
+    ) => {},
+    removeBundle: (state, action: PayloadAction<{ id: string }>) => {},
+  },
 });
 
 export const bundlesActions = bundlesSlice.actions;

@@ -28,9 +28,31 @@ export const cellsSlice = createSlice({
   name: 'cells',
   initialState,
   reducers: {
-    moveCell: (state, action: PayloadAction<{ id: string; direction: Direction }>) => {},
+    moveCell: (state, action: PayloadAction<{ id: string; direction: Direction }>) => {
+      const { id, direction } = action.payload;
+
+      const index = state.order.findIndex((cellId) => cellId === id);
+
+      if (index === -1) {
+        return;
+      }
+
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+
+      if (targetIndex < 0 || targetIndex >= state.order.length) {
+        return;
+      }
+
+      state.order[index] = state.order[targetIndex];
+      state.order[targetIndex] = id;
+    },
     deleteCell: (state, action: PayloadAction<{ id: string }>) => {
       const { id } = action.payload;
+
+      if (!state.data[id]) {
+        return;
+      }
+
       delete state.data[id];
 
       state.order = state.order.filter((cellId) => cellId !== id);
@@ -39,6 +61,10 @@ export const cellsSlice = createSlice({
     insertCellAfter: (state, action: PayloadAction<{ id: string; cellType: CellType }>) => {},
     updateCell: (state, action: PayloadAction<{ id: string; content: string }>) => {
       const { id, content } = action.payload;
+
+      if (!state.data[id]) {
+        return;
+      }
 
       state.data[id].content = content;
     },
