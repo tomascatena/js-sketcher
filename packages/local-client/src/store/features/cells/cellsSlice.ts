@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 export type Direction = 'up' | 'down';
 export type CellType = 'javascript' | 'markdown';
@@ -57,8 +58,26 @@ export const cellsSlice = createSlice({
 
       state.order = state.order.filter((cellId) => cellId !== id);
     },
-    insertCellBefore: (state, action: PayloadAction<{ id: string; cellType: CellType }>) => {},
-    insertCellAfter: (state, action: PayloadAction<{ id: string; cellType: CellType }>) => {},
+    insertCellBefore: (state, action: PayloadAction<{ id: string | null; cellType: CellType }>) => {
+      const { id, cellType } = action.payload;
+
+      const newCell: Cell = {
+        id: uuidv4(),
+        direction: 'down',
+        type: cellType,
+        content: '',
+      };
+
+      state.data[newCell.id] = newCell;
+
+      const index = state.order.findIndex((cellId) => cellId === id);
+
+      if (index === -1 || id === null) {
+        state.order.push(newCell.id);
+      } else {
+        state.order.splice(index, 0, newCell.id);
+      }
+    },
     updateCell: (state, action: PayloadAction<{ id: string; content: string }>) => {
       const { id, content } = action.payload;
 
