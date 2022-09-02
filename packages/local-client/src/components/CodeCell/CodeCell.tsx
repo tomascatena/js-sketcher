@@ -4,15 +4,21 @@ import CodeEditor from './CodeEditor/CodeEditor';
 import Preview from './Preview/Preview';
 import Resizable from '../Resizable/Resizable';
 import { CodeCellContainer } from './CodeCell.styled';
+import { Cell } from '../../store/features/cells/cellsSlice';
 
 const initialCode = `import React from 'react';
 import ReactDOM from 'react-dom';
+import { Cell } from '../../store/features/cells/cellsSlice';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<h1>Hello, world!</h1>);
 `;
 
-const CodeCell = () => {
+type Props = {
+  cell: Cell;
+};
+
+const CodeCell = ({ cell }: Props) => {
   const [code, setCode] = React.useState<string | null>(initialCode);
   const [input, setInput] = React.useState(initialCode);
   const [error, setError] = React.useState<string | null>(null);

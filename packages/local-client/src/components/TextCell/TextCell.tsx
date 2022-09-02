@@ -1,9 +1,12 @@
 import React from 'react';
 import MDEditor from '@uiw/react-md-editor';
+import { Cell } from '../../store/features/cells/cellsSlice';
 
-type Props = {};
+type Props = {
+  cell: Cell;
+};
 
-const TextCell = (props: Props) => {
+const TextCell = ({ cell }: Props) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [value, setValue] = React.useState("# Pelusa");
 
