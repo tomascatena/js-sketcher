@@ -1,5 +1,7 @@
 # dependencies
 packages/local-client/node_modules
+packages/local-client/.eslintcache
+packages/local-client/.env
 
 # testing
 packages/local-client/coverage
