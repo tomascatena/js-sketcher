@@ -6,6 +6,7 @@ import Resizable from '../Resizable/Resizable';
 import { CodeCellContainer } from './CodeCell.styled';
 import { Cell } from '../../store/features/cells/cellsSlice';
 import { useActions } from '../../hooks/useActions';
+import { Box } from '@mui/system';
 
 const initialCode = `import React from 'react';
 import ReactDOM from 'react-dom';
@@ -39,21 +40,23 @@ const CodeCell = ({ cell }: Props) => {
   }, [cell.content]);
 
   return (
-    <Resizable direction='vertical'>
-      <CodeCellContainer>
-        <Resizable direction='horizontal'>
-          <CodeEditor
-            initialValue={cell.content}
-            onChange={value => updateCell({ id: cell.id, content: value })}
-          />
-        </Resizable>
+    <Box sx={{ paddingBottom: '0.7rem' }}>
+      <Resizable direction='vertical'>
+        <CodeCellContainer>
+          <Resizable direction='horizontal'>
+            <CodeEditor
+              initialValue={cell.content}
+              onChange={value => updateCell({ id: cell.id, content: value })}
+            />
+          </Resizable>
 
-        <Preview
-          code={code}
-          error={error}
-        />
-      </CodeCellContainer>
-    </Resizable>
+          <Preview
+            code={code}
+            error={error}
+          />
+        </CodeCellContainer>
+      </Resizable>
+    </Box>
   );
 };
 

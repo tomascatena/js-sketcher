@@ -2,6 +2,7 @@ import React from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import { Cell } from '../../store/features/cells/cellsSlice';
 import { useActions } from '../../hooks/useActions';
+import { MDPreviewContainer } from './TextCell.styled';
 
 type Props = {
   cell: Cell;
@@ -39,12 +40,12 @@ const TextCell = ({ cell }: Props) => {
     );
   } else {
     return (
-      <div
+      <MDPreviewContainer
         onClick={() => setIsEditing(true)}
         data-color-mode="dark"
       >
         <MDEditor.Markdown source={cell.content || '# Click to edit'} />
-      </div>
+      </MDPreviewContainer>
     );
   }
 };
