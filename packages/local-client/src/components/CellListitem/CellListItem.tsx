@@ -9,27 +9,17 @@ type Props = {
   cell: Cell;
 };
 
-
 const CellListItem = ({ cell }: Props) => {
   return (
     <StyledCellListItem>
+      <ActionBarWrapper>
+        <ActionBar id={cell.id} />
+      </ActionBarWrapper>
+
       {
         cell.type === 'javascript'
-          ? (
-            <>
-              <ActionBarWrapper>
-                <ActionBar id={cell.id} />
-              </ActionBarWrapper>
-
-              <CodeCell cell={cell} />
-            </>
-          )
-          : (
-            <>
-              <TextCell cell={cell} />
-              <ActionBar id={cell.id} />
-            </>
-          )
+          ? <CodeCell cell={cell} />
+          : <TextCell cell={cell} />
       }
     </StyledCellListItem>
   );
