@@ -6,13 +6,14 @@ import { ButtonsContainer, StyledDivider } from './AddCell.styled';
 
 type Props = {
   nextCellId: string | null;
+  forceVisible?: boolean;
 };
 
-const AddCell = ({ nextCellId }: Props) => {
+const AddCell = ({ nextCellId, forceVisible = false }: Props) => {
   const { insertCellBefore } = useActions();
 
   return (
-    <StyledDivider>
+    <StyledDivider forceVisible={forceVisible}>
       <ButtonsContainer>
         <Button
           variant="outlined"

@@ -10,10 +10,16 @@ export const ButtonsContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(4),
 }));
 
-export const StyledDivider = styled(Divider)(({ theme }) => ({
+type StyledDividerProps = {
+  forceVisible?: boolean;
+};
+
+export const StyledDivider = styled(Divider, {
+  shouldForwardProp: (prop) => prop !== 'forceVisible',
+})<StyledDividerProps>(({ theme, forceVisible }) => ({
   marginTop: theme.spacing(2),
   marginBottom: theme.spacing(2),
-  opacity: 0,
+  opacity: forceVisible ? 1 : 0,
   transition: 'opacity 0.3s ease-in-out 0.1s',
 
   ':hover': {

@@ -22,7 +22,7 @@ const CellList = () => {
     <>
       {renderedCells}
 
-      <AddCell nextCellId={null} />
+      <AddCell nextCellId={null} forceVisible={cells.length === 0} />
     </>
   );
 };
