@@ -21,3 +21,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 
 store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'javascript' }));
 store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'markdown' }));
+store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'javascript' }));
+store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'markdown' }));
