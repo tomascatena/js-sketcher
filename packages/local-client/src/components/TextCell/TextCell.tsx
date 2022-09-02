@@ -1,6 +1,7 @@
 import React from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import { Cell } from '../../store/features/cells/cellsSlice';
+import { useActions } from '../../hooks/useActions';
 
 type Props = {
   cell: Cell;
@@ -8,7 +9,8 @@ type Props = {
 
 const TextCell = ({ cell }: Props) => {
   const [isEditing, setIsEditing] = React.useState(false);
-  const [value, setValue] = React.useState("# Pelusa");
+
+  const { updateCell } = useActions();
 
   const mdEditorRef = React.useRef<HTMLDivElement>(null);
 
@@ -30,8 +32,8 @@ const TextCell = ({ cell }: Props) => {
     return (
       <div ref={mdEditorRef}>
         <MDEditor
-          value={value}
-          onChange={e => setValue(e || '')}
+          value={cell.content}
+          onChange={value => updateCell({ id: cell.id, content: value || '' })}
         />
       </div>
     );
@@ -41,7 +43,7 @@ const TextCell = ({ cell }: Props) => {
         onClick={() => setIsEditing(true)}
         data-color-mode="dark"
       >
-        <MDEditor.Markdown source={value} />
+        <MDEditor.Markdown source={cell.content || '# Click to edit'} />
       </div>
     );
   }
