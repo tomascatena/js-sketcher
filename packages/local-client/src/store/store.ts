@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import cellsReducer from './features/cells/cellsSlice';
+import cellsReducer, { CellType } from './features/cells/cellsSlice';
 import bundlesReducer from './features/bundles/bundlesSlice';
 import { cellsActions } from './features/cells/cellsSlice';
 
@@ -19,7 +19,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'javascript' }));
-store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'markdown' }));
-store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'javascript' }));
-store.dispatch(cellsActions.insertCellBefore({ id: null, cellType: 'markdown' }));
+store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.JAVASCRIPT }));
+store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.MARKDOWN }));
+store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.JAVASCRIPT }));
+store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.MARKDOWN }));

@@ -25,4 +25,9 @@ export const StyledDivider = styled(Divider, {
   ':hover': {
     opacity: 1,
   },
+
+  ':active': {
+    opacity: 0,
+    transition: 'opacity 0s',
+  },
 }));

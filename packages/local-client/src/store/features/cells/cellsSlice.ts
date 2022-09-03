@@ -1,8 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-export type Direction = 'up' | 'down';
-export type CellType = 'javascript' | 'markdown';
+export enum Direction {
+  Up = 'up',
+  Down = 'down',
+}
+
+export enum CellType {
+  JAVASCRIPT = 'javascript',
+  MARKDOWN = 'markdown',
+}
 
 export interface Cell {
   id: string;
@@ -38,7 +45,7 @@ export const cellsSlice = createSlice({
         return;
       }
 
-      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      const targetIndex = direction === Direction.Up ? index - 1 : index + 1;
 
       if (targetIndex < 0 || targetIndex >= state.order.length) {
         return;
@@ -58,12 +65,12 @@ export const cellsSlice = createSlice({
 
       state.order = state.order.filter((cellId) => cellId !== id);
     },
-    insertCellBefore: (state, action: PayloadAction<{ id: string | null; cellType: CellType }>) => {
+    insertCellAfter: (state, action: PayloadAction<{ id: string | null; cellType: CellType }>) => {
       const { id, cellType } = action.payload;
 
       const newCell: Cell = {
         id: uuidv4(),
-        direction: 'down',
+        direction: Direction.Down,
         type: cellType,
         content: '',
       };
@@ -73,9 +80,9 @@ export const cellsSlice = createSlice({
       const index = state.order.findIndex((cellId) => cellId === id);
 
       if (index === -1 || id === null) {
-        state.order.push(newCell.id);
+        state.order.unshift(newCell.id);
       } else {
-        state.order.splice(index, 0, newCell.id);
+        state.order.splice(index + 1, 0, newCell.id);
       }
     },
     updateCell: (state, action: PayloadAction<{ id: string; content: string }>) => {

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Cell } from '../../store/features/cells/cellsSlice';
+import { Cell, CellType } from '../../store/features/cells/cellsSlice';
 import ActionBar from '../ActionBar/ActionBar';
 import CodeCell from '../CodeCell/CodeCell';
 import TextCell from '../TextCell/TextCell';
-import { ActionBarWrapper, StyledCellListItem } from './CellListItem.styled';
+import { ActionBarWrapper } from './CellListItem.styled';
+import { Box } from '@mui/material';
 
 type Props = {
   cell: Cell;
@@ -11,17 +12,17 @@ type Props = {
 
 const CellListItem = ({ cell }: Props) => {
   return (
-    <StyledCellListItem>
+    <Box>
       <ActionBarWrapper>
         <ActionBar id={cell.id} />
       </ActionBarWrapper>
 
       {
-        cell.type === 'javascript'
+        cell.type === CellType.JAVASCRIPT
           ? <CodeCell cell={cell} />
           : <TextCell cell={cell} />
       }
-    </StyledCellListItem>
+    </Box>
   );
 };
 
