@@ -5,6 +5,7 @@ export const CodeCellContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   height: '100%',
   flexDirection: 'row',
+  backgroundColor: '#fff',
 }));
 
 export const BundlingMessageContainer = styled(Box)(({ theme }) => ({

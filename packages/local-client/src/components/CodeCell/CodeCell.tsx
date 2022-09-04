@@ -9,7 +9,6 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { createBundle } from '../../store/features/bundles/bundles.thunk';
 import { CircularProgress, Box, Typography } from '@mui/material';
-import { set } from 'immer/dist/internal';
 
 const initialCode = `import React from 'react';
 import ReactDOM from 'react-dom';
