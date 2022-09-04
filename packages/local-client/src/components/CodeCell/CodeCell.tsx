@@ -2,7 +2,7 @@ import React from 'react';
 import CodeEditor from './CodeEditor/CodeEditor';
 import Preview from './Preview/Preview';
 import Resizable from '../Resizable/Resizable';
-import { CodeCellContainer } from './CodeCell.styled';
+import { BundlingMessageContainer, CodeCellContainer } from './CodeCell.styled';
 import { Cell } from '../../store/features/cells/cellsSlice';
 import { useActions } from '../../hooks/useActions';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -29,6 +29,13 @@ const CodeCell = ({ cell }: Props) => {
   const bundle = useTypedSelector((state) => state.bundles.cellBundles[cell.id]);
 
   React.useEffect(() => {
+    if (!bundle) {
+      dispatch(createBundle({
+        cellId: cell.id,
+        rawCode: cell.content,
+      }));
+    }
+
     const timer = setTimeout(async () => {
       dispatch(createBundle({
         cellId: cell.id,
@@ -39,6 +46,8 @@ const CodeCell = ({ cell }: Props) => {
     return () => {
       clearTimeout(timer);
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cell.content, cell.id, dispatch]);
 
   return (
@@ -54,17 +63,10 @@ const CodeCell = ({ cell }: Props) => {
 
           {
             !bundle || bundle.isBundling ? (
-              <Box sx={{
-                flex: 1,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-                gap: '1rem',
-              }}>
+              <BundlingMessageContainer>
                 <CircularProgress />
                 <Typography sx={{ marginLeft: '0.5rem' }}>Bundling</Typography>
-              </Box>
+              </BundlingMessageContainer>
             ) : (
               <Preview
                 code={bundle.code}

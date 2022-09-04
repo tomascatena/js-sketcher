@@ -6,3 +6,12 @@ export const CodeCellContainer = styled(Box)(({ theme }) => ({
   height: '100%',
   flexDirection: 'row',
 }));
+
+export const BundlingMessageContainer = styled(Box)(({ theme }) => ({
+  flex: 1,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  gap: '1rem',
+}));
