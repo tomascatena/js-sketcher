@@ -1,11 +1,8 @@
 import React from 'react';
-import Editor, { EditorDidMount } from "@monaco-editor/react";
+import Editor, { OnMount } from "@monaco-editor/react";
 import prettier from 'prettier';
 import parser from 'prettier/parser-babel';
 import { StyledBox, StyledButton } from './CodeEditor.styled';
-import codeShift from 'jscodeshift';
-import Highlighter from 'monaco-jsx-highlighter';
-import './syntax.css';
 
 type Props = {
   language?: string;
@@ -22,28 +19,14 @@ const CodeEditor = ({
 }: Props) => {
   const editorRef = React.useRef<any>();
 
-  const onEditorDidMount: EditorDidMount = (getCurrentValue, monacoEditor) => {
-    editorRef.current = monacoEditor;
+  const handleEditorMount: OnMount = async (editor, monaco) => {
+    editorRef.current = editor;
 
-    monacoEditor.onDidChangeModelContent(() => {
-      onChange(getCurrentValue());
-    });
+    const model = editor.getModel();
 
-    monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
-
-    const highlighter = new Highlighter(
-      // @ts-ignore
-      window.monaco,
-      codeShift,
-      monacoEditor
-    );
-
-    highlighter.highLightOnDidChangeModelContent(
-      () => { },
-      () => { },
-      undefined,
-      () => { }
-    );
+    if (model) {
+      model.updateOptions({ tabSize: 2 });
+    }
   };
 
   const onFormatClick = () => {
@@ -60,6 +43,10 @@ const CodeEditor = ({
     editorRef.current.setValue(formatted);
   };
 
+  const handleChange = (value: string | undefined) => {
+    onChange(value || '');
+  };
+
   return (
     <StyledBox className='editor-wrapper'>
       <StyledButton
@@ -72,7 +59,8 @@ const CodeEditor = ({
 
       <Editor
         value={initialValue}
-        editorDidMount={onEditorDidMount}
+        onMount={handleEditorMount}
+        onChange={handleChange}
         height='100%'
         width='100%'
         language={language}

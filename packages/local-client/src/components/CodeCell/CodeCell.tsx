@@ -25,7 +25,6 @@ const CodeCell = ({ cell }: Props) => {
   const [code, setCode] = React.useState<string | null>(initialCode);
   const [error, setError] = React.useState<string | null>(null);
 
-
   React.useEffect(() => {
     const timer = setTimeout(async () => {
       const { code, error } = await bundler(cell.content);
