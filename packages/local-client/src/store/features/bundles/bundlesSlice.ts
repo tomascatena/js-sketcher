@@ -8,7 +8,7 @@ export interface Bundle {
 
 export interface BundlesState {
   currentCellId: string | null;
-  cellBundles: { [key: string]: Bundle };
+  cellBundles: { [key: string]: Bundle | undefined };
 }
 
 const initialState: BundlesState = {
@@ -20,11 +20,19 @@ export const bundlesSlice = createSlice({
   name: 'bundles',
   initialState,
   reducers: {
-    setCurrentCellId: (state, action: PayloadAction<{ id: string }>) => {
-      state.currentCellId = action.payload.id;
+    setCurrentCellId: (state, action: PayloadAction<{ cellId: string }>) => {
+      state.currentCellId = action.payload.cellId;
+
+      if (!state.cellBundles[action.payload.cellId]) {
+        state.cellBundles[action.payload.cellId] = {
+          isBundling: false,
+          code: null,
+          error: null,
+        };
+      }
     },
-    startBundling: (state, action: PayloadAction<{ id: string }>) => {
-      state.cellBundles[action.payload.id] = {
+    startBundling: (state, action: PayloadAction<{ cellId: string }>) => {
+      state.cellBundles[action.payload.cellId] = {
         isBundling: true,
         code: '',
         error: null,
@@ -32,16 +40,16 @@ export const bundlesSlice = createSlice({
     },
     completeBundling: (
       state,
-      action: PayloadAction<{ id: string; code: string | null; error: string | null }>
+      action: PayloadAction<{ cellId: string; code: string | null; error: string | null }>
     ) => {
-      state.cellBundles[action.payload.id] = {
+      state.cellBundles[action.payload.cellId] = {
         isBundling: false,
         code: action.payload.code,
         error: action.payload.error,
       };
     },
-    removeBundle: (state, action: PayloadAction<{ id: string }>) => {
-      delete state.cellBundles[action.payload.id];
+    removeBundle: (state, action: PayloadAction<{ cellId: string }>) => {
+      delete state.cellBundles[action.payload.cellId];
     },
   },
 });

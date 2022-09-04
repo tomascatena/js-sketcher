@@ -10,7 +10,7 @@ export const createBundle = createAsyncThunk<
 >(
   'bundles/createBundle',
   async ({ cellId, rawCode }, { dispatch, getState }): Promise<Bundle | undefined> => {
-    dispatch(bundlesActions.setCurrentCellId({ id: cellId }));
+    dispatch(bundlesActions.setCurrentCellId({ cellId }));
 
     const { cellBundles } = getState().bundles;
 
@@ -18,7 +18,7 @@ export const createBundle = createAsyncThunk<
       return;
     }
 
-    dispatch(bundlesActions.startBundling({ id: cellId }));
+    dispatch(bundlesActions.startBundling({ cellId }));
 
     let code = null;
     let error = null;
@@ -34,7 +34,7 @@ export const createBundle = createAsyncThunk<
     } finally {
       dispatch(
         bundlesActions.completeBundling({
-          id: cellId,
+          cellId,
           code,
           error,
         })

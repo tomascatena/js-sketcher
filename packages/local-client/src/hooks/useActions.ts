@@ -2,6 +2,7 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { bundlesActions } from '../store/features/bundles/bundlesSlice';
 import { cellsActions } from '../store/features/cells/cellsSlice';
+import React from 'react';
 
 const actions = {
   ...cellsActions,
@@ -10,5 +11,8 @@ const actions = {
 
 export const useActions = (): typeof actions => {
   const dispatch = useDispatch();
-  return bindActionCreators(actions, dispatch);
+
+  return React.useMemo(() => {
+    return bindActionCreators(actions, dispatch);
+  }, [dispatch]);
 };
