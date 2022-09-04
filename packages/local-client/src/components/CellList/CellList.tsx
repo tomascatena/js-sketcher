@@ -8,15 +8,13 @@ const CellList = () => {
 
   const cells = order.map((id) => data[id]);
 
-  const renderedCells = cells.map((cell) => {
-    return (
-      <React.Fragment key={cell.id}>
-        <CellListItem cell={cell} />
+  const renderedCells = cells.map((cell) => (
+    <React.Fragment key={cell.id}>
+      <CellListItem cell={cell} />
 
-        <AddCell previousCellId={cell.id} />
-      </React.Fragment>
-    );
-  });
+      <AddCell previousCellId={cell.id} />
+    </React.Fragment>
+  ));
 
   return (
     <>
