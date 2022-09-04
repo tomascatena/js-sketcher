@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Bundle {
+  loading: boolean;
   code: string;
   error: string | null;
 }
