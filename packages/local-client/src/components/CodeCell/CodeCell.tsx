@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { createBundle } from '../../store/features/bundles/bundles.thunk';
 import { CircularProgress, Box, Typography } from '@mui/material';
+import { set } from 'immer/dist/internal';
 
 const initialCode = `import React from 'react';
 import ReactDOM from 'react-dom';
@@ -22,6 +23,8 @@ type Props = {
 };
 
 const CodeCell = ({ cell }: Props) => {
+  const [showBundlingMessage, setShowBundlingMessage] = React.useState(false);
+
   const { updateCell } = useActions();
 
   const dispatch = useAppDispatch();
@@ -50,6 +53,35 @@ const CodeCell = ({ cell }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cell.content, cell.id, dispatch]);
 
+  React.useEffect(() => {
+    setShowBundlingMessage(false);
+
+    let timer: ReturnType<typeof setTimeout> | null = null;
+
+    if (!bundle || bundle.isBundling) {
+      timer = setTimeout(() => {
+        setShowBundlingMessage(true);
+      }, 500);
+    }
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [bundle]);
+
+  const BundlingMessage = (
+    showBundlingMessage ? (
+      <BundlingMessageContainer>
+        <CircularProgress />
+        <Typography sx={{ marginLeft: '0.5rem' }}>
+          {!bundle ? 'Loading...' : 'Bundling...'}
+        </Typography>
+      </BundlingMessageContainer>
+    ) : null
+  );
+
   return (
     <Box sx={{ paddingBottom: '0.7rem' }}>
       <Resizable direction='vertical'>
@@ -63,10 +95,7 @@ const CodeCell = ({ cell }: Props) => {
 
           {
             !bundle || bundle.isBundling ? (
-              <BundlingMessageContainer>
-                <CircularProgress />
-                <Typography sx={{ marginLeft: '0.5rem' }}>Bundling</Typography>
-              </BundlingMessageContainer>
+              <>{BundlingMessage}</>
             ) : (
               <Preview
                 code={bundle.code}
