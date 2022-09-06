@@ -3,7 +3,7 @@ import CodeEditor from './CodeEditor/CodeEditor';
 import Preview from './Preview/Preview';
 import Resizable from '../Resizable/Resizable';
 import { BundlingMessageContainer, CodeCellContainer } from './CodeCell.styled';
-import { Cell } from '../../store/features/cells/cellsSlice';
+import { Cell, CellType } from '../../store/features/cells/cellsSlice';
 import { useActions } from '../../hooks/useActions';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
@@ -30,18 +30,38 @@ const CodeCell = ({ cell }: Props) => {
 
   const bundle = useTypedSelector((state) => state.bundles.cellBundles[cell.id]);
 
+  const cumulativeCode = useTypedSelector(state => {
+    const { data, order } = state.cells;
+    const orderedCells = order.map(id => data[id]);
+    const cumulativeCode = [];
+
+    for (let c of orderedCells) {
+      if (c.type === CellType.JAVASCRIPT) {
+        cumulativeCode.push(c.content);
+      }
+
+      if (c.id === cell.id) {
+        break;
+      }
+    }
+
+    return cumulativeCode.join('\n');
+  });
+
   React.useEffect(() => {
     if (!bundle) {
       dispatch(createBundle({
         cellId: cell.id,
-        rawCode: cell.content,
+        rawCode: cumulativeCode,
       }));
+
+      return;
     }
 
     const timer = setTimeout(async () => {
       dispatch(createBundle({
         cellId: cell.id,
-        rawCode: cell.content,
+        rawCode: cumulativeCode,
       }));
     }, 750);
 
@@ -50,7 +70,7 @@ const CodeCell = ({ cell }: Props) => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cell.content, cell.id, dispatch]);
+  }, [cumulativeCode, cell.id, dispatch]);
 
   React.useEffect(() => {
     setShowBundlingMessage(false);
