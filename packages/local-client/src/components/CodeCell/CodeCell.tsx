@@ -3,19 +3,13 @@ import CodeEditor from './CodeEditor/CodeEditor';
 import Preview from './Preview/Preview';
 import Resizable from '../Resizable/Resizable';
 import { BundlingMessageContainer, CodeCellContainer } from './CodeCell.styled';
-import { Cell, CellType } from '../../store/features/cells/cellsSlice';
+import { Cell } from '../../store/features/cells/cellsSlice';
 import { useActions } from '../../hooks/useActions';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { createBundle } from '../../store/features/bundles/bundles.thunk';
 import { CircularProgress, Box, Typography } from '@mui/material';
-
-const initialCode = `import React from 'react';
-import ReactDOM from 'react-dom';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<h1>Hello, world!</h1>);
-`;
+import { useCumulativeCode } from '../../hooks/useCumulativeCode';
 
 type Props = {
   cell: Cell;
@@ -30,42 +24,7 @@ const CodeCell = ({ cell }: Props) => {
 
   const bundle = useTypedSelector((state) => state.bundles.cellBundles[cell.id]);
 
-  const cumulativeCode = useTypedSelector(state => {
-    const { data, order } = state.cells;
-    const orderedCells = order.map(id => data[id]);
-    const cumulativeCode = [
-      `
-      import _React from 'react';
-      import _ReactDOM from 'react-dom';
-
-      const show = (value) => {
-        const root = document.querySelector('#root');
-
-        if(typeof value === 'object') {
-          if(value.$$typeof && value.props) {
-            _ReactDOM.render(value, root);
-          } else {
-            root.innerHTML = JSON.stringify(value);
-          }
-        } else {
-          root.innerHTML = value;
-        }
-      };
-      `
-    ];
-
-    for (let c of orderedCells) {
-      if (c.type === CellType.JAVASCRIPT) {
-        cumulativeCode.push(c.content);
-      }
-
-      if (c.id === cell.id) {
-        break;
-      }
-    }
-
-    return cumulativeCode.join('\n');
-  });
+  const cumulativeCode = useCumulativeCode(cell.id);
 
   React.useEffect(() => {
     if (!bundle) {
