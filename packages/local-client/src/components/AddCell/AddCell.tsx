@@ -1,9 +1,9 @@
-import React from 'react';
-import { useActions } from '../../hooks/useActions';
 import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { ButtonsContainer, StyledDivider } from './AddCell.styled';
 import { CellType } from '../../store/features/cells/cellsSlice';
+import { useActions } from '../../hooks/useActions';
+import AddIcon from '@mui/icons-material/Add';
+import React from 'react';
 
 type Props = {
   previousCellId: string | null;

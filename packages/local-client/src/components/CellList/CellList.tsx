@@ -1,7 +1,7 @@
-import React from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import AddCell from '../AddCell/AddCell';
 import CellListItem from '../CellListitem/CellListItem';
+import React from 'react';
 
 const CellList = () => {
   const { data, order } = useTypedSelector((state) => state.cells);
@@ -18,7 +18,10 @@ const CellList = () => {
 
   return (
     <>
-      <AddCell previousCellId={null} forceVisible={cells.length === 0} />
+      <AddCell
+        previousCellId={null}
+        forceVisible={cells.length === 0}
+      />
 
       {renderedCells}
     </>

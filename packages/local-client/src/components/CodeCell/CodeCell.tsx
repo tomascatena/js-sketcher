@@ -1,15 +1,15 @@
-import React from 'react';
-import CodeEditor from './CodeEditor/CodeEditor';
-import Preview from './Preview/Preview';
-import Resizable from '../Resizable/Resizable';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { BundlingMessageContainer, CodeCellContainer } from './CodeCell.styled';
 import { Cell } from '../../store/features/cells/cellsSlice';
+import { createBundle } from '../../store/features/bundles/bundles.thunk';
 import { useActions } from '../../hooks/useActions';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { createBundle } from '../../store/features/bundles/bundles.thunk';
-import { CircularProgress, Box, Typography } from '@mui/material';
 import { useCumulativeCode } from '../../hooks/useCumulativeCode';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import CodeEditor from './CodeEditor/CodeEditor';
+import Preview from './Preview/Preview';
+import React from 'react';
+import Resizable from '../Resizable/Resizable';
 
 type Props = {
   cell: Cell;
@@ -47,7 +47,7 @@ const CodeCell = ({ cell }: Props) => {
       clearTimeout(timer);
     };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [cumulativeCode, cell.id, dispatch]);
 
   React.useEffect(() => {

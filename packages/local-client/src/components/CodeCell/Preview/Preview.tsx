@@ -1,7 +1,7 @@
-import React from 'react';
 import './preview.css';
+import React from 'react';
 
-const html = /*html */`
+const html = /* html */`
 <!DOCTYPE html>
 <html lang="en">
   <head>

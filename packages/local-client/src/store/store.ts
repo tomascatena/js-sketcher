@@ -1,7 +1,6 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import cellsReducer, { CellType } from './features/cells/cellsSlice';
+import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import bundlesReducer from './features/bundles/bundlesSlice';
-import { cellsActions } from './features/cells/cellsSlice';
+import cellsReducer, { CellType, cellsActions } from './features/cells/cellsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,12 +11,14 @@ export const store = configureStore({
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
+/* eslint-disable */
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
   Action<string>
 >;
+/* eslint-enable */
 
 store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.JAVASCRIPT }));
 store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.MARKDOWN }));

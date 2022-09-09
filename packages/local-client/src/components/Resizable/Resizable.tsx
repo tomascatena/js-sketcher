@@ -1,6 +1,6 @@
-import React from 'react';
-import { ResizableBox, ResizableBoxProps } from 'react-resizable';
 import './resizable.css';
+import { ResizableBox, ResizableBoxProps } from 'react-resizable';
+import React from 'react';
 
 type Props = {
   direction: 'horizontal' | 'vertical';

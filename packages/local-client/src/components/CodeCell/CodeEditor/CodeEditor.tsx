@@ -1,8 +1,8 @@
-import React from 'react';
-import Editor, { OnMount } from "@monaco-editor/react";
-import prettier from 'prettier';
-import parser from 'prettier/parser-babel';
 import { StyledBox, StyledButton } from './CodeEditor.styled';
+import Editor, { OnMount } from '@monaco-editor/react';
+import React from 'react';
+import parser from 'prettier/parser-babel';
+import prettier from 'prettier';
 
 type Props = {
   language?: string;
@@ -19,7 +19,7 @@ const CodeEditor = ({
 }: Props) => {
   const editorRef = React.useRef<any>();
 
-  const handleEditorMount: OnMount = async (editor, monaco) => {
+  const handleEditorMount: OnMount = async (editor) => {
     editorRef.current = editor;
 
     const model = editor.getModel();

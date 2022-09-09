@@ -1,11 +1,11 @@
 import { Button } from '@mui/material';
-import React from 'react';
-import { useActions } from '../../hooks/useActions';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { StyledButtonGroup } from './ActionBar.styled';
 import { Direction } from '../../store/features/cells/cellsSlice';
+import { StyledButtonGroup } from './ActionBar.styled';
+import { useActions } from '../../hooks/useActions';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import React from 'react';
 
 type Props = {
   id: string;
@@ -15,7 +15,10 @@ const ActionBar = ({ id }: Props) => {
   const { moveCell, deleteCell } = useActions();
 
   return (
-    <StyledButtonGroup variant="contained" size="small">
+    <StyledButtonGroup
+      variant="contained"
+      size="small"
+    >
       <Button
         aria-label="move cell up"
         onClick={() => moveCell({ id, direction: Direction.Up })}

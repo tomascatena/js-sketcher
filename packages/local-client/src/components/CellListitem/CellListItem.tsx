@@ -1,10 +1,10 @@
-import React from 'react';
+import { ActionBarWrapper } from './CellListItem.styled';
+import { Box } from '@mui/material';
 import { Cell, CellType } from '../../store/features/cells/cellsSlice';
 import ActionBar from '../ActionBar/ActionBar';
 import CodeCell from '../CodeCell/CodeCell';
+import React from 'react';
 import TextCell from '../TextCell/TextCell';
-import { ActionBarWrapper } from './CellListItem.styled';
-import { Box } from '@mui/material';
 
 type Props = {
   cell: Cell;

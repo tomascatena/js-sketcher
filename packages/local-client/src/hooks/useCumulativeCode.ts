@@ -29,18 +29,18 @@ export const useCumulativeCode = (cellId: string) => {
 
     const cumulativeCode = [];
 
-    for (let c of orderedCells) {
-      if (c.type === CellType.JAVASCRIPT) {
-        if (c.id === cellId) {
+    for (const cell of orderedCells) {
+      if (cell.type === CellType.JAVASCRIPT) {
+        if (cell.id === cellId) {
           cumulativeCode.push(showFunction);
         } else {
           cumulativeCode.push(showFunctionNoOp);
         }
 
-        cumulativeCode.push(c.content);
+        cumulativeCode.push(cell.content);
       }
 
-      if (c.id === cellId) {
+      if (cell.id === cellId) {
         break;
       }
     }

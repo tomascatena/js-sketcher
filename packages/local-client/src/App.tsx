@@ -1,9 +1,9 @@
-import React from 'react';
+import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useDarkMode } from './hooks/useDarkMode';
-import CssBaseline from '@mui/material/CssBaseline';
-import { Container } from '@mui/material';
 import CellList from './components/CellList/CellList';
+import CssBaseline from '@mui/material/CssBaseline';
+import React from 'react';
 
 const App = () => {
   const { theme } = useDarkMode();
@@ -18,6 +18,5 @@ const App = () => {
     </ThemeProvider>
   );
 };
-
 
 export default App;

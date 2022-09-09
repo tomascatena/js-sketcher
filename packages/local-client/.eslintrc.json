@@ -1,0 +1,55 @@
+{
+  "env": { 
+    "browser": true,
+    "es2021": true,
+    "jest/globals": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": [
+    "plugin:react/recommended", 
+    "standard"
+  ],
+  "plugins": [
+    "react",
+    "jest",
+    "@typescript-eslint",
+    "sort-imports-es6-autofix"
+  ],
+  "settings": { "react": { "version": "detect" } },
+  "globals": { "React": true, "JSX": true },
+  // Lint ".storybook" folder (don't ignore it)
+  "ignorePatterns": ["!.storybook"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": ["warn"],
+    "comma-dangle": "off",
+    "space-before-function-paren": "off",
+    "multiline-ternary": "off",
+    "no-use-before-define": "off",
+    "semi": [2, "always"],
+    "camelcase": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "react/jsx-first-prop-new-line": [2, "multiline"],
+    "react/jsx-max-props-per-line": [2, { "maximum": 1, "when": "always" }],
+    "react/jsx-indent-props": [2, 2],
+    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
+    "@typescript-eslint/indent": ["error",2,
+      {
+        "ignoredNodes": ["JSXAttribute"],
+        "offsetTernaryExpressions": true
+      }
+    ],
+    "sort-imports-es6-autofix/sort-imports-es6": [2,
+      {
+        "ignoreCase": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+      }
+    ]
+  }
+}

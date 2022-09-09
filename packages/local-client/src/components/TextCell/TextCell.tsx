@@ -1,8 +1,8 @@
-import React from 'react';
-import MDEditor from '@uiw/react-md-editor';
 import { Cell } from '../../store/features/cells/cellsSlice';
-import { useActions } from '../../hooks/useActions';
 import { MDPreviewContainer } from './TextCell.styled';
+import { useActions } from '../../hooks/useActions';
+import MDEditor from '@uiw/react-md-editor';
+import React from 'react';
 
 type Props = {
   cell: Cell;
