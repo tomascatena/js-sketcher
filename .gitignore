@@ -8,3 +8,4 @@ packages/local-client/coverage
 
 # production
 packages/local-client/build
+packages/local-client/dist

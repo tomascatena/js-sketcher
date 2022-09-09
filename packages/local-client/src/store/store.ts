@@ -19,8 +19,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 /* eslint-enable */
-
-store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.JAVASCRIPT }));
-store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.MARKDOWN }));
-store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.JAVASCRIPT }));
-store.dispatch(cellsActions.insertCellAfter({ id: null, cellType: CellType.MARKDOWN }));
