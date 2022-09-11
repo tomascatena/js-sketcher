@@ -10,6 +10,8 @@ type LocalApiError = {
   code: string;
 };
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 export const serveCommand = new Command()
   .command('serve [filename]')
   .description('Open a file for editing')
@@ -24,6 +26,7 @@ export const serveCommand = new Command()
         port: Number(options.port),
         filename: path.basename(filename),
         dir: path.join(process.cwd(), path.dirname(filename)),
+        useProxy: !isProduction,
       });
 
       console.log(
