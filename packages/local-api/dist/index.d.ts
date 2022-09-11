@@ -3,5 +3,5 @@ declare type ServeParams = {
     filename: string;
     dir: string;
 };
-export declare const serve: (params: ServeParams) => void;
+export declare const serve: (params: ServeParams) => Promise<void>;
 export {};

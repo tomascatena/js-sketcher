@@ -1,9 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serve = void 0;
+const express_1 = __importDefault(require("express"));
 const serve = (params) => {
-    console.log('Serving traffic on port', params.port);
-    console.log('Saving/fetching cells from', params.filename);
-    console.log('That file is in directory', params.dir);
+    const { port, filename, dir } = params;
+    const app = (0, express_1.default)();
+    return new Promise((resolve, reject) => {
+        app.listen(port, resolve).on('error', reject);
+    });
 };
 exports.serve = serve;

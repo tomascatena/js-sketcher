@@ -1,3 +1,6 @@
+import express from 'express';
+import path from 'path';
+
 type ServeParams = {
   port: number;
   filename: string;
@@ -5,7 +8,10 @@ type ServeParams = {
 };
 
 export const serve = (params: ServeParams) => {
-  console.log('Serving traffic on port', params.port);
-  console.log('Saving/fetching cells from', params.filename);
-  console.log('That file is in directory', params.dir);
+  const { port, filename, dir } = params;
+  const app = express();
+
+  return new Promise<void>((resolve, reject) => {
+    app.listen(port, resolve).on('error', reject);
+  });
 };
