@@ -1,7 +1,7 @@
 import { useMediaQuery } from '@mui/material';
 import React from 'react';
-import darkTheme from '../themes/darkTheme';
-import lightTheme from '../themes/lightTheme';
+import darkTheme from '@/themes/darkTheme';
+import lightTheme from '@/themes/lightTheme';
 
 export const useDarkMode = () => {
   // Get OS-level preference for dark mode

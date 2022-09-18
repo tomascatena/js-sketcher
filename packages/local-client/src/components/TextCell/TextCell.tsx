@@ -1,6 +1,6 @@
-import { Cell } from '../../store/features/cells/cellsSlice';
+import { Cell } from '@/store/features/cells/cellsSlice';
 import { MDPreviewContainer } from './TextCell.styled';
-import { useActions } from '../../hooks/useActions';
+import { useActions } from '@/hooks/useActions';
 import MDEditor from '@uiw/react-md-editor';
 import React from 'react';
 

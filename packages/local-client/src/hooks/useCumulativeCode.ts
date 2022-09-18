@@ -1,4 +1,4 @@
-import { CellType } from '../store/features/cells/cellsSlice';
+import { CellType } from '@/store/features/cells/cellsSlice';
 import { useTypedSelector } from './useTypedSelector';
 
 export const useCumulativeCode = (cellId: string) => {

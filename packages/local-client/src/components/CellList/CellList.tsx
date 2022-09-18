@@ -1,6 +1,6 @@
-import { useTypedSelector } from '../../hooks/useTypedSelector';
-import AddCell from '../AddCell/AddCell';
-import CellListItem from '../CellListitem/CellListItem';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
+import AddCell from '@/components/AddCell/AddCell';
+import CellListItem from '@/components/CellListitem/CellListItem';
 import React from 'react';
 
 const CellList = () => {

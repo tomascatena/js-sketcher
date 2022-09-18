@@ -1,5 +1,5 @@
+import { Box, Button } from '@mui/material';
 import { styled } from '@mui/system';
-import { Button, Box } from '@mui/material';
 
 export const StyledBox = styled(Box)(() => ({
   position: 'relative',

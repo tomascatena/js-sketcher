@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { ButtonsContainer, StyledDivider } from './AddCell.styled';
-import { CellType } from '../../store/features/cells/cellsSlice';
-import { useActions } from '../../hooks/useActions';
+import { CellType } from '@/store/features/cells/cellsSlice';
+import { useActions } from '@/hooks/useActions';
 import AddIcon from '@mui/icons-material/Add';
 import React from 'react';
 

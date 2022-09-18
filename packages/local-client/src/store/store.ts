@@ -1,6 +1,6 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import bundlesReducer from './features/bundles/bundlesSlice';
-import cellsReducer, { CellType, cellsActions } from './features/cells/cellsSlice';
+import cellsReducer from './features/cells/cellsSlice';
 
 export const store = configureStore({
   reducer: {

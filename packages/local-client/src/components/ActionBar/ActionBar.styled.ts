@@ -1,5 +1,5 @@
-import { styled } from '@mui/system';
 import { ButtonGroup } from '@mui/material';
+import { styled } from '@mui/system';
 
 export const StyledButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   borderRadius: '0 0 0 0',

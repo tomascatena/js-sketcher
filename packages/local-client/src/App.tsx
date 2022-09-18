@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import { useDarkMode } from './hooks/useDarkMode';
-import CellList from './components/CellList/CellList';
+import { useDarkMode } from '@/hooks/useDarkMode';
+import CellList from '@/components/CellList/CellList';
 import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 

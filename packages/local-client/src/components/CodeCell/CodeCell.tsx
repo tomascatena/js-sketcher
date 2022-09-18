@@ -1,11 +1,11 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { BundlingMessageContainer, CodeCellContainer } from './CodeCell.styled';
-import { Cell } from '../../store/features/cells/cellsSlice';
-import { createBundle } from '../../store/features/bundles/bundles.thunk';
-import { useActions } from '../../hooks/useActions';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useCumulativeCode } from '../../hooks/useCumulativeCode';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { Cell } from '@/store/features/cells/cellsSlice';
+import { createBundle } from '@/store/features/bundles/bundles.thunk';
+import { useActions } from '@/hooks/useActions';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useCumulativeCode } from '@/hooks/useCumulativeCode';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 import CodeEditor from './CodeEditor/CodeEditor';
 import Preview from './Preview/Preview';
 import React from 'react';

@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
-import { Direction } from '../../store/features/cells/cellsSlice';
+import { Direction } from '@/store/features/cells/cellsSlice';
 import { StyledButtonGroup } from './ActionBar.styled';
-import { useActions } from '../../hooks/useActions';
+import { useActions } from '@/hooks/useActions';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';

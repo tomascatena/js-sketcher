@@ -1,5 +1,5 @@
-import { styled } from '@mui/system';
 import { Box, Divider } from '@mui/material';
+import { styled } from '@mui/system';
 
 export const StyledCellListItem = styled(Box)(({ theme }) => ({
   position: 'relative',
