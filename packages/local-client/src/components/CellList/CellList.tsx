@@ -7,10 +7,10 @@ import React from 'react';
 
 const CellList = () => {
   const { data, order } = useTypedSelector((state) => state.cells);
+
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    console.log('CellList useEffect');
     dispatch(fetchCells());
   }, []);
 

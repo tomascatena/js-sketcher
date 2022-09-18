@@ -8,8 +8,6 @@ export const fetchCells = createAsyncThunk<Cell[], void, { state: RootState }>(
   async (_, { getState, requestId }) => {
     const { loading, currentRequestId } = getState().cells;
 
-    console.log('fetchCells', loading, currentRequestId, requestId);
-
     if (!loading || requestId !== currentRequestId) {
       return;
     }
@@ -30,7 +28,7 @@ export const saveCells = createAsyncThunk<void, void, { state: RootState }>(
     }
 
     const cells = order.map((id: string) => data[id]);
-
+    console.log(cells);
     await axios.post('/cells', { cells });
   }
 );
