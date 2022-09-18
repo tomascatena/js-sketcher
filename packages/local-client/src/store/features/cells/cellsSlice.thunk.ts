@@ -8,6 +8,8 @@ export const fetchCells = createAsyncThunk<Cell[], void, { state: RootState }>(
   async (_, { getState, requestId }) => {
     const { loading, currentRequestId } = getState().cells;
 
+    console.log('fetchCells', loading, currentRequestId, requestId);
+
     if (!loading || requestId !== currentRequestId) {
       return;
     }

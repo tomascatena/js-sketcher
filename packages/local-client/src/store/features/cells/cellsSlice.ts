@@ -23,9 +23,8 @@ export interface CellsState {
   data: { [key: string]: Cell };
   order: string[];
   loading: boolean;
-  error: string | null | SerializedError;
+  error: null | string | SerializedError;
   currentRequestId: string | undefined;
-  saveError: string | null | SerializedError;
 }
 
 const initialState: CellsState = {
@@ -34,7 +33,6 @@ const initialState: CellsState = {
   loading: false,
   error: null,
   currentRequestId: undefined,
-  saveError: null,
 };
 
 export const cellsSlice = createSlice({
@@ -111,18 +109,23 @@ export const cellsSlice = createSlice({
       })
       .addCase(fetchCells.fulfilled, (state, action) => {
         const { requestId } = action.meta;
+        const cells = action.payload;
+
         if (state.loading === true && state.currentRequestId === requestId) {
           state.loading = false;
           state.currentRequestId = undefined;
-          state.order = action.payload.map((cell) => cell.id);
-          state.data = action.payload.reduce((accumulator, cell) => {
+          state.order = cells.map((cell) => cell.id);
+
+          state.data = cells.reduce((accumulator, cell) => {
             accumulator[cell.id] = cell;
+
             return accumulator;
           }, {} as CellsState['data']);
         }
       })
       .addCase(fetchCells.rejected, (state, action) => {
         const { requestId } = action.meta;
+
         if (state.loading === true && state.currentRequestId === requestId) {
           state.loading = false;
           state.error = action.error;
@@ -132,12 +135,13 @@ export const cellsSlice = createSlice({
       .addCase(saveCells.pending, (state, action) => {
         if (state.loading === false) {
           state.loading = true;
-          state.saveError = null;
+          state.error = null;
           state.currentRequestId = action.meta.requestId;
         }
       })
       .addCase(saveCells.fulfilled, (state, action) => {
         const { requestId } = action.meta;
+
         if (state.loading === true && state.currentRequestId === requestId) {
           state.loading = false;
           state.currentRequestId = undefined;
@@ -145,9 +149,10 @@ export const cellsSlice = createSlice({
       })
       .addCase(saveCells.rejected, (state, action) => {
         const { requestId } = action.meta;
+
         if (state.loading === true && state.currentRequestId === requestId) {
           state.loading = false;
-          state.saveError = action.error;
+          state.error = action.error;
           state.currentRequestId = undefined;
         }
       });

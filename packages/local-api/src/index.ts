@@ -14,6 +14,8 @@ export const serve = (params: ServeParams) => {
   const { port, filename, dir, useProxy } = params;
   const app = express();
 
+  app.use(createCellsRouter(filename, dir));
+
   if (useProxy) {
     app.use(
       createProxyMiddleware({
@@ -28,9 +30,19 @@ export const serve = (params: ServeParams) => {
     app.use(express.static(path.dirname(packagePath)));
   }
 
-  app.use(createCellsRouter(filename, dir));
-
   return new Promise<void>((resolve, reject) => {
     app.listen(port, resolve).on('error', reject);
   });
 };
+
+process.on('uncaughtException', (err: any) => {
+  console.log('UNCAUGHT EXCEPTION! Shutting down...');
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err: any) => {
+  console.log('UNHANDLED REJECTION! Shutting down...');
+  console.log(err.name, err.message);
+  process.exit(1);
+});

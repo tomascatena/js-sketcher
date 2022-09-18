@@ -19,9 +19,11 @@ interface LocalApiError {
 
 export const createCellsRouter = (filename: string, dir: string) => {
   const router = express.Router();
+
   router.use(express.json());
 
   const fullPath = path.join(dir, filename);
+  console.log(fullPath);
 
   router.get('/cells', async (req, res) => {
     const isLocalApiError = (err: any): err is LocalApiError => {
@@ -35,7 +37,7 @@ export const createCellsRouter = (filename: string, dir: string) => {
     } catch (err) {
       if (isLocalApiError(err)) {
         if (err.code === 'ENOENT') {
-          await fs.writeFile(fullPath, '[]', 'utf-8');
+          await fs.writeFile(fullPath, '[]', { encoding: 'utf-8' });
 
           res.send([]);
         } else {

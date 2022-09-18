@@ -1,3 +1,5 @@
+import { fetchCells } from '@/store/features/cells/cellsSlice.thunk';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import AddCell from '@/components/AddCell/AddCell';
 import CellListItem from '@/components/CellListitem/CellListItem';
@@ -5,6 +7,12 @@ import React from 'react';
 
 const CellList = () => {
   const { data, order } = useTypedSelector((state) => state.cells);
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    console.log('CellList useEffect');
+    dispatch(fetchCells());
+  }, []);
 
   const cells = order.map((id) => data[id]);
 
