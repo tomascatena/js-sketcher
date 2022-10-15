@@ -18,7 +18,7 @@
   "author": "Tomás Catena",
   "license": "ISC",
   "dependencies": {
-    "@js-sketcher/local-client": "^0.1.0",
+    "@js-sketcher/local-client": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "http-proxy-middleware": "^2.0.6"
