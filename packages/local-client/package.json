@@ -31,7 +31,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.1",
     "@reduxjs/toolkit": "^1.8.5",
-    "@uiw/react-md-editor": "^3.17.2",
+    "@uiw/react-md-editor": "3.17.2",
     "axios": "^0.27.2",
     "esbuild-wasm": "0.8.27",
     "localforage": "^1.10.0",

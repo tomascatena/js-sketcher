@@ -1,3 +1,4 @@
+import './markdown-editor.css';
 import { Cell } from '@/store/features/cells/cellsSlice';
 import { MDPreviewContainer } from './TextCell.styled';
 import { useActions } from '@/hooks/useActions';
@@ -33,6 +34,7 @@ const TextCell = ({ cell }: Props) => {
     return (
       <div ref={mdEditorRef}>
         <MDEditor
+          style={{ border: '2px solid #fff' }}
           value={cell.content}
           onChange={value => updateCell({ id: cell.id, content: value || '' })}
         />
