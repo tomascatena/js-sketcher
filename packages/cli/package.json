@@ -2,7 +2,15 @@
   "name": "js-sketcher",
   "version": "1.0.0",
   "description": "",
+  "bin": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "prepublishOnly": "tsc",
     "start": "tsc --watch --preserveWatchOutput"
   },
   "keywords": [],
