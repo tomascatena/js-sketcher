@@ -20,7 +20,7 @@ const serve = (params) => {
         }));
     }
     else {
-        const packagePath = require.resolve('local-client/dist/index.html');
+        const packagePath = require.resolve('@js-sketcher/local-client/dist/index.html');
         app.use(express_1.default.static(path_1.default.dirname(packagePath)));
     }
     return new Promise((resolve, reject) => {

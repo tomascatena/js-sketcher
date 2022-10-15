@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { serve } from 'local-api';
+import { serve } from '@js-sketcher/local-api';
 import path from 'path';
 
 type Options = {

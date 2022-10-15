@@ -1,5 +1,5 @@
 {
-  "name": "cli",
+  "name": "js-sketcher",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^9.4.0",
-    "local-api": "^1.0.0"
+    "@js-sketcher/local-api": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.7.16",
