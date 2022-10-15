@@ -1,4 +1,4 @@
-import './markdown-editor.css';
+import './markdown-editor.css'; // TODO: fix
 import { Cell } from '@/store/features/cells/cellsSlice';
 import { MDPreviewContainer } from './TextCell.styled';
 import { useActions } from '@/hooks/useActions';
