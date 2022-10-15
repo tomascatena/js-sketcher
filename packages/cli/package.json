@@ -10,18 +10,19 @@
     "dist"
   ],
   "scripts": {
-    "prepublishOnly": "tsc",
+    "prepublishOnly": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --minify --define:process.env.NODE_ENV=\\\"production\\\"",
     "start": "tsc --watch --preserveWatchOutput"
   },
   "keywords": [],
   "author": "Tomás Catena",
   "license": "ISC",
   "dependencies": {
-    "commander": "^9.4.0",
-    "@js-sketcher/local-api": "^1.0.0"
+    "@js-sketcher/local-api": "^1.0.0",
+    "commander": "^9.4.0"
   },
   "devDependencies": {
     "@types/node": "^18.7.16",
+    "esbuild": "0.8.27",
     "typescript": "^4.8.3"
   }
 }
